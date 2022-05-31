@@ -9,6 +9,7 @@ from werkzeug.exceptions import HTTPException
 import re
 import sys
 from flask_api.compat import is_flask_legacy
+app = Flask(__name__)
 
 
 api_resources = Blueprint(
