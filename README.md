@@ -1,13 +1,13 @@
 # TesteCloudopss
 Criação de conteiners e imagens com Docker e Jenkins
 
-   Requisitos para rodar a aplicação
+    Requisitos para rodar a aplicação
    
 - Python:3
 - Docker
 - Jenkins
 
-   Instruções da utlização da aplicação
+    Instruções da utlização da aplicação
 - Clone este repositório para um repositorio local a sua escolha;
 - Após isso execute o "CMD" ou "SHELL" e vá até o local onde escolheu clonar o seu repositório;
 
