@@ -1,16 +1,23 @@
-pipeline{
-    agent { label "linux"}
-    stages  {
-        stage("build"){
-            steps{
-                sh "docker build -t teste_final ."
-            }
-        }
-        stage("run"){
-            steps{
-                sh "docker run --rm teste_final"
-            }
-        }
+node {
+    def app
 
+    stage('Clone repository'){
+        checkout scm
+    }
+
+    stage('Build image'){
+        app = docker.build("natanluiz1/teste_exemplo")
+    }
+
+    stage('test application'){
+        app.inside{
+            sh 'echo "teste ok"'
+        }
+    }
+    stage('Push image'){
+        docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials'){
+            app.Push("${env.BUILD_NUMBER}")
+            app.Push("latest")
+        }
     }
 }
