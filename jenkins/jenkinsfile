@@ -1,9 +1,23 @@
 node {
-    checkout scm
+    def app
 
-    def customImage = docker.build("teste_exemplo:${env.BUILD_ID}")
+    stage('Clone repository'){
+        checkout scm
+    }
 
-    customImage.inside {
-        sh 'make test'
+    stage('Build image'){
+        app = docker.build("natanluiz1/teste_exemplo")
+    }
+
+    stage('test application'){
+        app.inside{
+            sh 'echo "teste ok"'
+        }
+    }
+    stage('Push image'){
+        docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials'){
+            app.Push("${env.BUILD_NUMBER}")
+            app.Push("latest")
+        }
     }
 }
