@@ -1,23 +1,16 @@
-node {
-    def app
-
-    stage('Clone repository'){
-        checkout scm
-    }
-
-    stage('Build image'){
-        app = docker.build("./final_test")
-    }
-
-    stage('test application'){
-        app.inside{
-            sh 'echo "teste ok"'
+pipeline{
+    agente { label "windows"}
+    stages  {
+        stage("build"){
+            steps{
+                sh "docker build -t teste_final ."
+            }
         }
-    }
-    stage('Push image'){
-        docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials'){
-            app.Push("${env.BUILD_NUMBER}")
-            app.Push("latest")
+        stage("run"){
+            steps{
+                sh "docker run --rm teste_final"
+            }
         }
+
     }
 }
